@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+      .card {
+        max-width: 400px;
+        margin: auto;
+        margin-top: 100px;
+        text-align: center;
+      }
+    }
+  </style>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <img class="mb-4 mx-auto d-block" src="/templates/assets/cover.jpg" alt="" width="72" height="72" style="border-radius: 50%; border: thin solid gray;">
+          <h1 class="h3 mb-3 fw-normal audiowide-regular">Sign In</h1>
+
+          <!-- Handle global messages for alerts -->
+          {% if messages %}
+            <div class="alert alert-danger" role="alert">
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <!-- Handle form-specific errors -->
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingUsername" name="{{ form.username.name }}" placeholder="Username" value="{{ form.username.value|default_if_none:'' }}">
+            <label for="floatingUsername">Username</label>
+            {% if form.username.errors %}
+              <div class="text-danger">{{ form.username.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" name="{{ form.password.name }}" placeholder="Password" value="{{ form.password.value|default_if_none:'' }}">
+            <label for="floatingPassword">Password</label>
+            {% if form.password.errors %}
+              <div class="text-danger">{{ form.password.errors }}</div>
+            {% endif %}
+          </div>
+
+          <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+          <button class="w-100 btn btn-md btn-primary" type="submit">Proceed</button>
+          <input type="hidden" name="next" value="{{ next }}">
+          <p class="mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+    
+    {% comment %} <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <table>
+        <tr>
+          <td>{{ form.username.label_tag }}</td>
+          <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+          <td>{{ form.password.label_tag }}</td>
+          <td>{{ form.password }}</td>
+        </tr>
+      </table>
+      <input type="submit" value="login">
+      <input type="hidden" name="next" value="{{ next }}">
+    </form> {% endcomment %}

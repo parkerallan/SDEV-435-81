@@ -1,0 +1,113 @@
+{% extends 'base.html'%}
+{% block content %}
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .card {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 100px;
+    text-align: center;
+  }
+</style>
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        <img class="mb-4 mx-auto d-block" src="/templates/assets/cover.jpg" alt="" width="72" height="72" style="border-radius: 50%; border: thin solid gray;">
+        <h1 class="h3 mb-3 fw-normal audiowide-regular">Register</h1>
+
+        {% if messages %}
+        <div class="alert alert-primary" role="alert">
+          {% for message in messages %}
+          {{ message }}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" id="floatingUsername" name="username" placeholder="Username">
+          <label for="floatingUsername">Username</label>
+          {% if form.username.errors %}
+          <div class="invalid-feedback">
+            {{ form.username.errors.as_text }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="floatingEmail" name="email" placeholder="name@example.com">
+          <label for="floatingEmail">Email</label>
+          {% if form.email.errors %}
+          <div class="invalid-feedback">
+            {{ form.email.errors.as_text }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" id="floatingPassword" name="password1" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+          {% if form.password1.errors %}
+          <div class="invalid-feedback">
+            {{ form.password1.errors.as_text }}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" id="floatingConfirmPassword" name="password2" placeholder="Confirm Password">
+          <label for="floatingConfirmPassword">Confirm Password</label>
+          {% if form.password2.errors %}
+          <div class="invalid-feedback">
+            {{ form.password2.errors.as_text }}
+          </div>
+          {% endif %}
+        </div>
+
+        <button class="w-100 btn btn-md btn-primary" type="submit">Proceed</button>
+        <input type="hidden" name="next" value="{{ next }}">
+        <p class="mt-3">Have an account? <a href="{% url 'login' %}">Login</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% comment %} <h2>Register</h2>
+<form method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.email.label_tag }}</td>
+            <td>{{ form.email }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password1.label_tag }}</td>
+            <td>{{ form.password1 }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password2.label_tag }}</td>
+            <td>{{ form.password2 }}</td>
+        </tr>
+    </table>
+    <input type="submit" value="Register">
+</form> {% endcomment %}

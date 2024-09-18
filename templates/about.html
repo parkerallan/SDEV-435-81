@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .fixed-card {
+    width: 300px; /* Fixed width for the card */
+    height: 400px; /* Fixed height for the card */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide overflow to ensure fixed dimensions */
+    margin-bottom: 1.5rem; /* Space between cards */
+  }
+
+  .fixed-card .card-img-top {
+    width: 100%; /* Full width of the card */
+    height: 200px; /* Fixed height for the image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+  }
+
+  .fixed-card .card-body {
+    flex: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes the button to the bottom */
+  }
+
+  .fixed-card .btn-group {
+    margin-top: auto; /* Pushes the button to the bottom */
+  }
+</style>
+
+<main>
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">About Echo</h1>
+        <p class="lead text-muted">Echo is designed to be your go-to platform for creating and engaging with content. Our goal is to provide a space where users can interact seamlessly. Explore our features and discover a community where your voice matters.</p>
+        <p>
+          <a href="{% url 'register' %}" class="btn btn-primary my-2">Get Started</a>
+          <a href="https://github.com/parkerallan/SDEV-435-81" class="btn btn-secondary my-2">Learn More</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-dark">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col">
+          <div class="card shadow-sm fixed-card">
+            <img src="/templates/assets/code.png" class="card-img-top" alt="Features">
+            <div class="card-body">
+              <h5 class="card-title">Features</h5>
+              <p class="card-text">Explore the features of Echo, from user-friendly posting and commenting to interactive content engagement.</p>
+              <div class="btn-group">
+                <a href="https://github.com/parkerallan/SDEV-435-81" class="btn btn-sm btn-outline-secondary">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm fixed-card">
+            <img src="/templates/assets/developer.png" class="card-img-top" alt="Developer">
+            <div class="card-body">
+              <h5 class="card-title">The Developer</h5>
+              <p class="card-text">Meet the passionate developer behind Echo. Committed to building high-quality software.</p>
+              <div class="btn-group">
+                <a href="https://www.parkerdev.net/#about-me" class="btn btn-sm btn-outline-secondary">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm fixed-card">
+            <img src="/templates/assets/contact.png" class="card-img-top" alt="Contact Me">
+            <div class="card-body">
+              <h5 class="card-title">Contact Me</h5>
+              <p class="card-text">Have questions or feedback? I would love to hear from you! Reach out to us through my contact page for any inquiries or questions.</p>
+              <div class="btn-group">
+                <a href="https://www.parkerdev.net/#contact" class="btn btn-sm btn-outline-secondary">Contact</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

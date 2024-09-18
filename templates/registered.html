@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+    
+    .card {
+      max-width: 400px;
+      margin: auto;
+      margin-top: 100px;
+      text-align: center;
+    }
+  </style>
+
+  <header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <div class="navbar-brand d-flex align-items-center">
+          <strong>Registration</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Registration Successful</h1>
+        <p class="lead text-muted">Congratulations! Your registration was successful. You can now log in to your account.</p>
+        <p>
+          <a href="{% url 'login' %}" class="btn btn-primary my-2">Login</a>
+        </p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

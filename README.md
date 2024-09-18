@@ -28,7 +28,7 @@ Installation
 Clone the Repository:
 ```python
 git clone https://github.com/parkerallan/SDEV-435-81.git
-cd social-media-app
+cd SDEV-435-81
 ```
 For admin access, run migrations and create a root user:
 ```python 

@@ -12,7 +12,7 @@ urlpatterns = [
     
     path('feed/', feed_view, name='feed'),
     # path('post/', name='post'),
-    # path('create/', name='create'),
+    path('posts/', include('posts.urls')),
     
     path('register/', register_view, name='register'),
     path('registered/', registered_view, name='registered'),

@@ -26,11 +26,11 @@ Installation
 
 ## Setup
 Clone the Repository:
-```python
+```bash
 git clone https://github.com/parkerallan/SDEV-435-81.git
 cd SDEV-435-81
 ```
-Run the application locally:
+Setup local environment with dependencies:
 ```python
 # Create and activate a virtual environment
 python -m venv env
@@ -44,7 +44,7 @@ For admin access, run migrations and create a root user:
 python manage.py migrate
 python manage.py createsuperuser
 ```
-Run application:
+Finally, run the application:
 ```python 
 python manage.py runserver
 ```

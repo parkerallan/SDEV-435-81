@@ -30,6 +30,15 @@ Clone the Repository:
 git clone https://github.com/parkerallan/SDEV-435-81.git
 cd SDEV-435-81
 ```
+Run the application locally:
+```python
+# Create and activate a virtual environment
+python -m venv env
+env\Scripts\activate
+
+# Install pip dependencies
+pip install -r requirements.txt
+```
 For admin access, run migrations and create a root user:
 ```python 
 python manage.py migrate

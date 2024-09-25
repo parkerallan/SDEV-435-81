@@ -2,13 +2,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from pages.views import home_view, about_view, feed_view, register_view, registered_view
+from pages.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', home_view, name='home'),
     path('', include('django.contrib.auth.urls')),
     path('about/', about_view, name='about'),
+    path('contact/', redirect_to_website, name='contact'),
     
     path('feed/', feed_view, name='feed'),
     # path('post/', name='post'),

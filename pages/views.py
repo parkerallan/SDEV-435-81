@@ -3,7 +3,7 @@ from social_media_app.forms import RegistrationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-#from posts.models import Post
+# from posts.models import *
 
 def home_view(request):
   return render(request, 'home.html')
@@ -30,11 +30,9 @@ def registered_view(request):
 def redirect_to_website(request):
   return redirect('https://www.parkerdev.net/#contact')
 
-@login_required(login_url='/login/')
-def feed_view(request):
-  return render(request, 'feed.html')
-#     posts = Post.objects.all()
-#     return render(request, 'feed.html', {'posts': posts})
+# @login_required(login_url='/login/')
+# def feed_view(request):
+  # return render(request, 'feed.html')
 
 def register_view(request):
   if request.method == 'POST':

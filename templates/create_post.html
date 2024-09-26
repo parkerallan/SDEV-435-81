@@ -22,16 +22,26 @@
   <div class="col-md-12">
     <div class="card bg-dark text-white rounded">
       <div class="card-body">
-        <textarea class="form-control mb-3" rows="5" placeholder="What are you thinking?"></textarea>
-        <div class="d-flex justify-content-between">
-          <a href="{% url 'feed' %}" class="btn btn-outline-danger d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16" width="24" height="24">
-              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
-            </svg></a>
-          <button class="btn btn-primary" type="submit">
-            <i class="fa fa-pencil"></i> Share
-          </button>
+        <form method="post" action="{% url 'create_post' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <textarea class="form-control mb-3" rows="5" placeholder="What are you thinking?" name="content" required></textarea>
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'feed' %}" class="btn btn-outline-danger d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16" width="24" height="24">
+                  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+                </svg></a>
+              <button class="btn btn-primary" type="submit">Share</button>
+            </div>
+          </div>
+        </form>
+        {% if messages %}
+        <div class="alert alert-secondary" role="alert">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
         </div>
+        {% endif %}
       </div>
     </div>
   </div>

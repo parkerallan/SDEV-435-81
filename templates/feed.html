@@ -64,7 +64,7 @@
       right: 20px;
       width: 50px;
       height: 50px;
-      background-color: #007bff; /* Change this to the color you want */
+      background-color: #007bff;
       border: none;
       border-radius: 50%;
       display: flex;
@@ -73,80 +73,119 @@
     }
 
     .circular-button svg {
-      fill: white; /* Ensure the icon is white */
+      fill: white;
     }
   </style>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <div class="container mt-4">
-    <div class="col-md-12">
-      <div class="panel">
-        <div class="panel-body mt-5">
-          
-          <!-- Initial Post -->
-          <div class="media-block">
-            <div class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></div>
-            <div class="media-body">
-              <div class="mar-btm ms-3">
-                <p class="text-semibold media-heading box-inline m-0">Main User</p>
-                <p class="text-muted text-sm">11 min ago</p>
-              </div>
-              <p>consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-              <div class="d-flex justify-content-between">
-                <div class="">
-                  <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
-                  <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
+    <div class="col-md-12 mt-5">
+      {% for post in posts %}
+      <!-- Initial Post -->
+        <div class="panel">
+          <div class="panel-body">
+            <div class="media-block">
+              <div class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></div>
+              <div class="media-body">
+                <div class="mar-btm ms-3">
+                  <p class="text-semibold media-heading box-inline m-0">{{ post.author.username }}</p>
+                  <p class="text-muted text-sm">{{ post.created_at }}</p>
                 </div>
-                <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a>
-              </div>
-
-              <!-- Comment Form -->
-              <div class="comment-form mt-3" style="display: none;">
-                <form>
-                  <div class="form-group">
-                    <textarea class="form-control" rows="3" placeholder="Write your comment here..."></textarea>
-                  </div>
-                  <div class="d-flex d-flex justify-content-end">
-                    <button type="submit" class="btn btn-sm btn-outline-light mt-3">Share</button>
-                  </div>
-                </form>
-              </div>
-              <hr>
-
-              <!-- Comments -->
-              <div>
+                <p>{{ post.content }}</p>
                 <div class="d-flex justify-content-between">
-                  <a class="btn btn-sm btn-outline-light" onclick="toggleComments()">View 2 Comments</a>
-                  <a href="{% url 'post_detail' %}" class="btn btn-sm btn-outline-light p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707"/>
-                  </svg></a>
-                </div>
-                <div class="collapsed-comments">
-                  <div class="media-block mt-3">
-                    <div class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></div>
-                    <div class="media-body">
-                      <div class="mar-btm ms-3">
-                        <p class="text-semibold media-heading box-inline m-0">Comment User1</p>
-                        <p class="text-muted text-sm">7 min ago</p>
-                      </div>
-                      <p>Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-                      <div class="d-flex justify-content-between">
-                        <div class="">
-                          <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
-                          <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
-                        </div>
-                        <!--<a class="btn btn-sm btn-outline-light" href="#">Comment</a>-->
-                      </div>
-                      <hr>
-                    </div>
+                  <div class="">
+                    {% comment %} <div class="{% if post.total_likes > 0 %}text-success{% elif post.total_likes < 0 %}text-danger{% else %}text-muted{% endif %}">
+                      {{ post.total_likes }}
+                    </div> {% endcomment %}
+                    <form method="POST" class="d-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="post_id" value="{{ post.id }}">
+                      <input type="hidden" name="action" value="like">
+                      <button type="submit" class="btn btn-sm btn-outline-light">
+                        <i class="fa fa-thumbs-up"></i>                        
+                            {% if user in post.likes.all %}
+                                Unlike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </button>
+                    </form>
+                    {% comment %} <div class="{% if post.total_dislikes > 0 %}text-success{% elif post.total_dislikes < 0 %}text-danger{% else %}text-muted{% endif %}">
+                      {{ post.total_dislikes }}
+                    </div> {% endcomment %}
+                    <form method="POST" class="d-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="post_id" value="{{ post.id }}">
+                      <input type="hidden" name="action" value="dislike">
+                      <button type="submit" class="btn btn-sm btn-outline-light">
+                        <i class="fa fa-thumbs-down"></i>
+                          {% if user in post.dislikes.all %}
+                              Remove Dislike
+                          {% else %}
+                              Dislike
+                          {% endif %}
+                      </button>
+                    </form>
                   </div>
+                  <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a>
+                </div>
+
+                <!-- Comment Form -->
+                <div class="comment-form mt-3" style="display: none;">
+                  <form method="POST" action="{% url 'post_detail' post.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <textarea name="content" class="form-control" rows="3" placeholder="What are you thinking?" required ></textarea>
+                    </div>
+                    <div class="d-flex d-flex justify-content-end">
+                      <button type="submit" class="btn btn-sm btn-outline-light mt-3">Share</button>
+                    </div>
+                  </form>
+                </div>
+                <hr>
+
+                <div>
+                  <div class="d-flex justify-content-between">
+                    {% if post.comments.count > 0 %}
+                    <a class="btn btn-sm btn-outline-light" onclick="toggleComments()">
+                      View {{ post.comments.count }} Comment{% if post.comments.count > 1 %}s{% endif %}
+                    </a>
+                    {% endif %}                  
+                    <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-outline-light pb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707"/>
+                      </svg></a>
+                  </div>
+                  <!-- Comments -->
+                  {% for comment in post.comments.all %}
+                    <div class="collapsed-comments">
+                      <div class="media-block mt-3">
+                        <div class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></div>
+                        <div class="media-body">
+                          <div class="mar-btm ms-3">
+                            <p class="text-semibold media-heading box-inline m-0">{{ comment.author.username }}</p>
+                            <p class="text-muted text-sm">{{ comment.created_at }}</p>
+                          </div>
+                          <p>{{ comment.content }}</p>
+                          <div class="d-flex justify-content-between">
+                            {% comment %} <div class="">
+                              <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
+                              <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
+                            </div> {% endcomment %}
+                            <!--<a class="btn btn-sm btn-outline-light" href="#">Comment</a>-->
+                          </div>
+                          <hr>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-      </div>
+        {% empty %}
+          <h3 class="text-center">No posts found</h3>
+        {% endfor %}
     </div>
   </div>
 

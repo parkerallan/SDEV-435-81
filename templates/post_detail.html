@@ -7,28 +7,6 @@
       color: #e0e0e0;
     }
 
-    .panel {
-      background-color: #1e1e1e;
-      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.075);
-      border-radius: 8px;
-      border: 0;
-      margin-bottom: 15px;
-    }
-
-    .panel .panel-footer, .panel>:last-child {
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-
-    .panel .panel-heading, .panel>:first-child {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-    }
-
-    .panel-body {
-      padding: 25px 20px;
-    }
-
     .img-sm {
       width: 46px;
       height: 46px;
@@ -73,71 +51,61 @@
     }
   </style>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-  {% comment %} <div class="container">
-    <div class="col-md-12">
-      <div class="panel">
-        <div class="panel-body mt-5"> {% endcomment %}
-          
-          <!-- Initial Post -->
-          <div class="media-block m-5">
-            <div class="d-flex justify-content-between mb-3" style="margin-top: 20px;">
-              <a href="{% url 'feed' %}" class="btn btn-outline-danger d-flex align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16" width="24" height="24">
-                  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
-                </svg></a>
-            </div>
-            <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></a>
-            <div class="media-body">
-              <div class="mar-btm ms-3">
-                <p class="text-semibold media-heading box-inline m-0">Main User</p>
-                <p class="text-muted text-sm">11 min ago</p>
-              </div>
-              <p>consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-              <div class="d-flex justify-content-between">
-                <div class="">
-                  <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
-                  <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
-                </div>
-                <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a>
-              </div>
+    <div class="media-block m-5">
+      <div class="d-flex justify-content-between mb-3" style="margin-top: 20px;">
+        <a href="{% url 'feed' %}" class="btn btn-outline-danger d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16" width="24" height="24">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+          </svg></a>
+      </div>
+      <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></a>
+      <div class="media-body">
+        <div class="mar-btm ms-3">
+          <p class="text-semibold media-heading box-inline m-0">{{ post.author.username }}</p>
+          <p class="text-muted text-sm">{{ post.created_at }}</p>
+        </div>
+        <p>{{ post.content }}</p>
+        <div class="d-flex justify-content-between">
+          <div class="">
+            {{ post.total_likes }} <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
+            {{ post.total_dislikes }} <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
+          </div>
+          <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a>
+        </div>
 
-                <!-- Comment Form -->
-                <div class="comment-form mt-3" style="display: none;">
-                  <form>
-                    <div class="form-group">
-                      <textarea class="form-control" rows="3" placeholder="Write your comment here..."></textarea>
-                    </div>
-                    <div class="d-flex d-flex justify-content-end">
-                      <button type="submit" class="btn btn-sm btn-outline-light mt-3">Share</button>
-                    </div>
-                  </form>
-                </div>
-              <hr>
+          <!-- Comment Form -->
+          <div class="comment-form mt-3" style="display: none;">
+            <form class="">
+              <div class="form-group">
+                <textarea class="form-control" rows="3" placeholder="What are you thinking?"></textarea>
+              </div>
+              <div class="d-flex d-flex justify-content-end">
+                <button type="submit" class="btn btn-sm btn-outline-light mt-3">Share</button>
+              </div>
+            </form>
+          </div>
+        <hr>
 
-              <!-- Comments -->
-              <div>
-                <div class="">
-                  <div class="media-block mt-3">
-                    <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></a>
-                    <div class="media-body">
-                      <div class="mar-btm ms-3">
-                        <p class="text-semibold media-heading box-inline m-0">Comment User1</p>
-                        <p class="text-muted text-sm">7 min ago</p>
-                      </div>
-                      <p>Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-                      <div class="d-flex justify-content-between">
-                        <div class="">
-                          <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
-                          <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
-                        </div>
-                        <!--<a class="btn btn-sm btn-outline-light" href="#">Comment</a>-->
-                      </div>
-                      <hr>
-                    </div>
+        <!-- Comments -->
+        <div>
+          <div class="">
+            <div class="media-block mt-4">
+              <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></a>
+              <div class="media-body">
+                <div class="mar-btm ms-3">
+                  <p class="text-semibold media-heading box-inline m-0">Comment User1</p>
+                  <p class="text-muted text-sm">7 min ago</p>
+                </div>
+                <p>Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                {% comment %}<div class="d-flex justify-content-between">
+                  <div class="">
+                    <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
+                    <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
                   </div>
-                </div>
+                  <a class="btn btn-sm btn-outline-light" href="#">Comment</a>-->
+                  </div>{% endcomment %}
+                <hr class="mt-4">
               </div>
-
             </div>
           </div>
         </div>

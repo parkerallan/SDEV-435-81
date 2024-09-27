@@ -126,13 +126,14 @@
                       </button>
                     </form>
                   </div>
-                  <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a>
+                  <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm(event, '{{ post.id }}')" href="#">Comment</a>
                 </div>
 
                 <!-- Comment Form -->
-                <div class="comment-form mt-3" style="display: none;">
-                  <form method="POST" action="{% url 'post_detail' post.id %}">
+                <div class="comment-form mt-3" style="display: none;" data-post-id="{{ post.id }}">
+                  <form method="POST" action="{% url 'feed' %}">
                     {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
                     <div class="form-group">
                       <textarea name="content" class="form-control" rows="3" placeholder="What are you thinking?" required ></textarea>
                     </div>
@@ -146,7 +147,7 @@
                 <div>
                   <div class="d-flex justify-content-between">
                     {% if post.comments.count > 0 %}
-                    <a class="btn btn-sm btn-outline-light" onclick="toggleComments()">
+                    <a class="btn btn-sm btn-outline-light" onclick="toggleComments(event, '{{ post.id }}')">
                       View {{ post.comments.count }} Comment{% if post.comments.count > 1 %}s{% endif %}
                     </a>
                     {% endif %}                  
@@ -156,8 +157,8 @@
                       </svg></a>
                   </div>
                   <!-- Comments -->
-                  {% for comment in post.comments.all %}
-                    <div class="collapsed-comments">
+                  <div class="collapsed-comments" data-post-id="{{ post.id }}">
+                    {% for comment in post.comments.all %}
                       <div class="media-block mt-3">
                         <div class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></div>
                         <div class="media-body">
@@ -176,8 +177,8 @@
                           <hr>
                         </div>
                       </div>
-                    </div>
-                  {% endfor %}
+                    {% endfor %}
+                  </div>
                 </div>
               </div>
             </div>
@@ -196,12 +197,14 @@
   </a>
 
   <script>
-    function toggleComments() {
-      const comments = document.querySelector('.collapsed-comments');
+    function toggleComments(event, postId) {
+      event.preventDefault();
+      const comments = document.querySelector(`.collapsed-comments[data-post-id="${postId}"]`);
       comments.style.display = comments.style.display === 'none' || comments.style.display === '' ? 'block' : 'none';
     }
-    function toggleCommentForm() {
-      const form = document.querySelector('.comment-form');
+    function toggleCommentForm(event, postId) {
+      event.preventDefault();
+      const form = document.querySelector(`.comment-form[data-post-id="${postId}"]`);
       form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
     }
   </script>

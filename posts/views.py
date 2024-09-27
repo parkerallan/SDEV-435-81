@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from django.contrib import messages
 
+@login_required(login_url='/login/')
 def post_list(request):
     posts = Post.objects.all().order_by('-created_at')
     

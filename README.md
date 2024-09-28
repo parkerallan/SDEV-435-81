@@ -1,6 +1,6 @@
 # Echo - Social Media App - SDEV-435-81
 ## Overview
-The Social Media Application is a web-based platform designed to enable users to create posts, and interact with content through comments and likes. It is developed using the Django framework for backend functionalities and utilizes HTML, CSS, and Bootstrap for the front end. This application is a simple yet effective tool for users to share updates and engage with others.
+The Social Media Application is a web-based platform designed for users to create posts and interact with content through comments and likes. It is developed using the Django framework for backend functionalities and utilizes HTML, CSS, and Bootstrap for the front end. This application is a simple yet effective tool for users to share updates and engage with others.
 
 ## Features
 - User Registration and Login: Users can sign up, log in, and manage their accounts.
@@ -18,13 +18,14 @@ The Social Media Application is a web-based platform designed to enable users to
 ### Frontend:
 - HTML/CSS: This is used to build and style the user interface.
 - Bootstrap: Front-end framework for responsive design.
-Installation
 
-## Prerequisites
+## Installation
+
+### Prerequisites
 - Python 3.8+
 - pip
 
-## Setup
+### Setup
 Clone the Repository:
 ```bash
 git clone https://github.com/parkerallan/SDEV-435-81.git

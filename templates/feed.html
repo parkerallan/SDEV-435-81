@@ -58,7 +58,7 @@
       display: none;
     }
 
-    .circular-button {
+    .post-button {
       position: fixed;
       bottom: 60px;
       right: 20px;
@@ -71,16 +71,30 @@
       align-items: center;
       justify-content: center;
     }
-
-    .circular-button svg {
+    
+    svg {
       fill: white;
     }
+
+    .scroll-button {
+      position: fixed;
+      bottom: 120px;
+      right: 27px;
+      width: 35px;
+      height: 35px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
   </style>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <div class="container mt-4">
-    <div class="col-md-12 mt-5">
+    <div class="col-md-8 offset-md-2 mt-5">
       {% for post in posts %}
-      <!-- Initial Post -->
+      <!-- Single Post Panel -->
         <div class="panel">
           <div class="panel-body">
             <div class="media-block">
@@ -91,55 +105,15 @@
                   <p class="text-muted text-sm">{{ post.created_at }}</p>
                 </div>
                 <p>{{ post.content }}</p>
-                <div class="d-flex justify-content-between">
-                  <div class="">
-                    {% comment %} <div class="{% if post.total_likes > 0 %}text-success{% elif post.total_likes < 0 %}text-danger{% else %}text-muted{% endif %}">
-                      {{ post.total_likes }}
-                    </div> {% endcomment %}
-                    <form method="POST" class="d-inline">
-                      {% csrf_token %}
-                      <input type="hidden" name="post_id" value="{{ post.id }}">
-                      <input type="hidden" name="action" value="like">
-                      <button type="submit" class="btn btn-sm btn-outline-light">
-                        <i class="fa fa-thumbs-up"></i>                        
-                            {% if user in post.likes.all %}
-                                Unlike
-                            {% else %}
-                                Like
-                            {% endif %}
-                        </button>
-                    </form>
-                    {% comment %} <div class="{% if post.total_dislikes > 0 %}text-success{% elif post.total_dislikes < 0 %}text-danger{% else %}text-muted{% endif %}">
-                      {{ post.total_dislikes }}
-                    </div> {% endcomment %}
-                    <form method="POST" class="d-inline">
-                      {% csrf_token %}
-                      <input type="hidden" name="post_id" value="{{ post.id }}">
-                      <input type="hidden" name="action" value="dislike">
-                      <button type="submit" class="btn btn-sm btn-outline-light">
-                        <i class="fa fa-thumbs-down"></i>
-                          {% if user in post.dislikes.all %}
-                              Remove Dislike
-                          {% else %}
-                              Dislike
-                          {% endif %}
-                      </button>
-                    </form>
-                  </div>
-                  <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm(event, '{{ post.id }}')" href="#">Comment</a>
+                <div class="d-flex justify-content-between align-items-center">
+                  {% comment %} {% include 'counter.html' %} {% endcomment %}
+                  <a class="btn btn-sm btn-outline-light" onclick="toggleSelector(event, 'comment-form', '{{ post.id }}')" href="#">Comment</a>
                 </div>
 
                 <!-- Comment Form -->
                 <div class="comment-form mt-3" style="display: none;" data-post-id="{{ post.id }}">
                   <form method="POST" action="{% url 'feed' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="post_id" value="{{ post.id }}">
-                    <div class="form-group">
-                      <textarea name="content" class="form-control" rows="3" placeholder="What are you thinking?" required ></textarea>
-                    </div>
-                    <div class="d-flex d-flex justify-content-end">
-                      <button type="submit" class="btn btn-sm btn-outline-light mt-3">Share</button>
-                    </div>
+                    {% include 'comment_form.html' %}
                   </form>
                 </div>
                 <hr>
@@ -147,7 +121,7 @@
                 <div>
                   <div class="d-flex justify-content-between">
                     {% if post.comments.count > 0 %}
-                    <a class="btn btn-sm btn-outline-light" onclick="toggleComments(event, '{{ post.id }}')">
+                    <a class="btn btn-sm btn-outline-light" onclick="toggleSelector(event, 'collapsed-comments', '{{ post.id }}')">
                       View {{ post.comments.count }} Comment{% if post.comments.count > 1 %}s{% endif %}
                     </a>
                     {% endif %}                  
@@ -156,27 +130,10 @@
                         <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707"/>
                       </svg></a>
                   </div>
-                  <!-- Comments -->
+                  <!-- Collapsed Comments -->
                   <div class="collapsed-comments" data-post-id="{{ post.id }}">
                     {% for comment in post.comments.all %}
-                      <div class="media-block mt-3">
-                        <div class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></div>
-                        <div class="media-body">
-                          <div class="mar-btm ms-3">
-                            <p class="text-semibold media-heading box-inline m-0">{{ comment.author.username }}</p>
-                            <p class="text-muted text-sm">{{ comment.created_at }}</p>
-                          </div>
-                          <p>{{ comment.content }}</p>
-                          <div class="d-flex justify-content-between">
-                            {% comment %} <div class="">
-                              <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-up"></i></a>
-                              <a class="btn btn-sm btn-outline-light" href="#"><i class="fa fa-thumbs-down"></i></a>
-                            </div> {% endcomment %}
-                            <!--<a class="btn btn-sm btn-outline-light" href="#">Comment</a>-->
-                          </div>
-                          <hr>
-                        </div>
-                      </div>
+                      {% include 'comment_body.html' %}
                     {% endfor %}
                   </div>
                 </div>
@@ -190,22 +147,27 @@
     </div>
   </div>
 
-  <a href="{% url 'create_post' %}" class="circular-button">
+  <a onclick="scrollToTop()" class="scroll-button" href="#">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+    </svg>
+  </a>
+
+  <a href="{% url 'create_post' %}" class="post-button">
     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
     </svg>
   </a>
 
   <script>
-    function toggleComments(event, postId) {
+    function toggleSelector(event, selectorClass, postId) {
       event.preventDefault();
-      const comments = document.querySelector(`.collapsed-comments[data-post-id="${postId}"]`);
-      comments.style.display = comments.style.display === 'none' || comments.style.display === '' ? 'block' : 'none';
+      const selector = document.querySelector(`.${selectorClass}[data-post-id="${postId}"]`);
+      selector.style.display = selector.style.display === 'none' || selector.style.display === '' ? 'block' : 'none';
     }
-    function toggleCommentForm(event, postId) {
-      event.preventDefault();
-      const form = document.querySelector(`.comment-form[data-post-id="${postId}"]`);
-      form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+    function scrollToTop() {
+      document.body.scrollTop = 0; // Safari
+      document.documentElement.scrollTop = 0; // Chrome, Firefox
     }
   </script>
 {% endblock %}

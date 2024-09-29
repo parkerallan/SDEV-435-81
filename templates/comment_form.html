@@ -1,0 +1,10 @@
+<div>
+  {% csrf_token %}
+  <input type="hidden" name="post_id" value="{{ post.id }}">
+  <div class="form-group">
+      <textarea class="form-control" name="content" rows="3" placeholder="What are you thinking?" required></textarea>
+  </div>
+  <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-sm btn-outline-light mt-3">Share</button>
+  </div>
+</div>

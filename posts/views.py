@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from django.contrib import messages
+from .utils import like_dislike
 
 @login_required(login_url='/login/')
 def post_list(request):
@@ -12,19 +13,9 @@ def post_list(request):
         action = request.POST.get('action')
         post = get_object_or_404(Post, id=post_id)
 
-        if action == 'like':
-            if request.user in post.likes.all():
-                post.likes.remove(request.user)  # Remove like
-            else:
-                post.likes.add(request.user)      # Add like
-                post.dislikes.remove(request.user)  # Remove dislike if exists
-
-        elif action == 'dislike':
-            if request.user in post.dislikes.all():
-                post.dislikes.remove(request.user)  # Remove dislike
-            else:
-                post.dislikes.add(request.user)      # Add dislike
-                post.likes.remove(request.user)      # Remove like if exists
+        # Handle like and dislike actions
+        if 'action' in request.POST:
+            like_dislike(request, post_id)
                 
         elif 'content' in request.POST:
             comment_content = request.POST.get('content')
@@ -45,19 +36,8 @@ def post_detail(request, pk):
         comment_content = request.POST.get('content')  # Get the comment content
 
         # Handle like and dislike actions
-        if action == 'like':
-            if request.user in post.likes.all():
-                post.likes.remove(request.user)  # Remove like
-            else:
-                post.likes.add(request.user)      # Add like
-                post.dislikes.remove(request.user)  # Remove dislike if exists
-
-        elif action == 'dislike':
-            if request.user in post.dislikes.all():
-                post.dislikes.remove(request.user)  # Remove dislike
-            else:
-                post.dislikes.add(request.user)      # Add dislike
-                post.likes.remove(request.user)      # Remove like if exists
+        if 'action' in request.POST:
+            like_dislike(request, post_id)
 
         # Handle comment submission
         if comment_content and post_id:  # Check if content and post ID are available

@@ -68,7 +68,7 @@ d{% extends 'base.html' %}
           </div>
           <p>{{ post.content }}</p>
           <div class="d-flex justify-content-between align-items-center">
-            {% comment %} {% include 'counter.html' %} {% endcomment %}
+            {% include 'counter.html' %}
             <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a>
           </div>
 

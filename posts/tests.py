@@ -83,3 +83,45 @@ class Like(TestCase):
     self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
     self.assertEqual(self.post.dislikes.count(), 0)
     self.assertEqual(self.post.likes.count(), 1)
+    
+class Dislike(TestCase):
+  def setUp(self):
+    self.user = User.objects.create_user(username='dislikeuser', password='bigpassword1234$$')
+    self.client.login(username='dislikeuser', password='bigpassword1234$$')
+    self.post = Post.objects.create(author=self.user, content='Dislike Post')
+    
+  def test_dislike_post(self):
+    response = self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'dislike'})
+    self.assertEqual(response.status_code, 302)
+    self.assertEqual(self.post.dislikes.count(), 1)
+    
+  def test_duplicate_dislikes(self):
+    # Test that a user cannot dislike a post multiple times
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'dislike'})
+    self.assertEqual(self.post.dislikes.count(), 1)
+
+    # Try disliking the post again
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'dislike'})
+    self.assertEqual(self.post.dislikes.count(), 0)  # Should remove the dislike
+
+    # Now like the post
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
+    self.assertEqual(self.post.dislikes.count(), 0)
+    self.assertEqual(self.post.likes.count(), 1)
+
+  def test_remove_dislike(self):
+    self.post.dislikes.add(self.user)
+    response = self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'dislike'})
+    self.assertEqual(response.status_code, 302)
+    self.assertEqual(self.post.dislikes.count(), 0)
+    
+  def test_like_then_dislike_post(self):
+    # Test if a user can like a post => then dislike it, ensuring likes are removed
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
+    self.assertEqual(self.post.likes.count(), 1)
+    self.assertEqual(self.post.dislikes.count(), 0)
+
+    # Now dislike the post
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'dislike'})
+    self.assertEqual(self.post.likes.count(), 0)
+    self.assertEqual(self.post.dislikes.count(), 1)

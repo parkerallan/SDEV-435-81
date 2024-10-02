@@ -48,3 +48,38 @@ class Comments(TestCase):
     response = self.client.get(reverse('post_detail', kwargs={'pk': self.post.pk}))
     self.assertEqual(response.status_code, 200)
     self.assertContains(response, 'Test comment')
+    
+class Like(TestCase):
+  def setUp(self):
+    self.user = User.objects.create_user(username='likeuser', password='bigpassword098##')
+    self.client.login(username='likeuser', password='bigpassword098##')
+    self.post = Post.objects.create(author=self.user, content='Like Post')
+    
+  def test_like_post(self):
+    response = self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
+    self.assertEqual(response.status_code, 302)  # Should redirect after action
+    self.assertEqual(self.post.likes.count(), 1)
+
+  def test_duplicate_likes(self):
+    # Test that a user cannot like a post multiple times
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
+    self.assertEqual(self.post.likes.count(), 1)
+
+    # Try liking the post again
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
+    self.assertEqual(self.post.likes.count(), 0)  # Should remove the like
+
+  def test_unlike_post(self):
+    self.post.likes.add(self.user)
+    response = self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
+    self.assertEqual(response.status_code, 302)
+    self.assertEqual(self.post.likes.count(), 0)
+
+  def test_dislike_then_like_post(self):
+    # Test if a user can dislike a post => then like it, ensuring dislikes are removed."""
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'dislike'})
+    self.assertEqual(self.post.dislikes.count(), 1)
+    self.assertEqual(self.post.likes.count(), 0)
+    self.client.post(reverse('feed'), {'post_id': self.post.id, 'action': 'like'})
+    self.assertEqual(self.post.dislikes.count(), 0)
+    self.assertEqual(self.post.likes.count(), 1)

@@ -93,18 +93,27 @@
   </style>
   <div class="container mt-4">
     <div class="col-md-8 offset-md-2 mt-5">
-      {% for post in posts %}
+      
       <!-- Single Post Panel -->
+      {% for post in posts %}
         <div class="panel">
           <div class="panel-body">
             <div class="media-block">
-              <div class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></div>
+              <div class="media-left"><a href="{% url 'userprofile' post.author.id %}"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></a></div>
               <div class="media-body">
                 <div class="mar-btm ms-3">
-                  <p class="text-semibold media-heading box-inline m-0">{{ post.author.username }}</p>
+                  <p class="text-semibold media-heading box-inline m-0"><a href="{% url 'userprofile' post.author.id %}" style="text-decoration: none; color: white;">
+                    {% if post.author.profile.display_name %}
+                      {{ post.author.profile.display_name }}
+                    {% else %}
+                      {{ post.author.username }}
+                    {% endif %}
+                  </p>
                   <p class="text-muted text-sm">{{ post.created_at }}</p>
                 </div>
                 <p>{{ post.content }}</p>
+
+                <!-- Like Counter-->
                 <div class="d-flex justify-content-between align-items-center">
                   {% include 'counter.html' %}
                   <a class="btn btn-sm btn-outline-light" onclick="toggleSelector(event, 'comment-form', '{{ post.id }}')" href="#">Comment</a>

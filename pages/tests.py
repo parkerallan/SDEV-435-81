@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
+from .models import Profile
 
 class Status(TestCase):
   def test_home_page_access(self):
@@ -115,3 +116,86 @@ class Register(TestCase):
 
       self.assertEqual(response.status_code, 200)
       self.assertFormError(response, 'form', 'password2', "This password is too short. It must contain at least 8 characters.")
+
+class UserProfiles(TestCase):
+  def setUp(self):
+      # Create two users -> one for the authenticated user and another to test the public profile view.
+      self.user1 = User.objects.create_user(username='testuser1', password='password123', email='user1@example.com')
+      self.user2 = User.objects.create_user(username='testuser2', password='password123', email='user2@example.com')
+
+      self.profile1 = Profile.objects.create(user=self.user1, display_name="User One", bio="User One Bio", social_links="https://twitter.com/user1")
+      self.profile2 = Profile.objects.create(user=self.user2, display_name="User Two", bio="User Two Bio", social_links="https://twitter.com/user2")
+
+      self.client.login(username='testuser1', password='password123')
+
+  def test_my_profile_view_accessible(self):
+      response = self.client.get(reverse('myprofile'))
+      self.assertEqual(response.status_code, 200)
+      self.assertTemplateUsed(response, 'my_profile.html')
+
+  def test_my_profile_initial_data(self):
+      response = self.client.get(reverse('myprofile'))
+      self.assertContains(response, 'User One')
+      self.assertContains(response, 'User One Bio')
+      self.assertContains(response, 'https://twitter.com/user1')
+
+  def test_my_profile_update(self):
+      """Test that a user can update their profile information."""
+      response = self.client.post(reverse('myprofile'), {
+          'display_name': 'Updated User One',
+          'bio': 'Updated bio for User One',
+          'social_links': 'https://linkedin.com/in/user1',
+      })
+      self.assertEqual(response.status_code, 302)  # redirect after update
+
+      self.profile1.refresh_from_db()
+      self.assertEqual(self.profile1.display_name, 'Updated User One')
+      self.assertEqual(self.profile1.bio, 'Updated bio for User One')
+      self.assertEqual(self.profile1.social_links, 'https://linkedin.com/in/user1')
+
+  def test_my_profile_empty_display_name(self):
+      response = self.client.post(reverse('myprofile'), {
+          'display_name': '',
+          'bio': 'Bio with empty display name',
+          'social_links': 'https://twitter.com/user1',
+      })
+      self.assertEqual(response.status_code, 302)
+
+      self.profile1.refresh_from_db()
+      self.assertEqual(self.profile1.display_name, '')  # Display name can be blank
+      self.assertEqual(self.profile1.bio, 'Bio with empty display name')
+
+  def test_my_profile_invalid_url(self):
+      response = self.client.post(reverse('myprofile'), {
+          'display_name': 'User One',
+          'bio': 'Bio for User One',
+          'social_links': 'invalid-url',
+      })
+      self.assertEqual(response.status_code, 200)
+      self.assertFormError(response, 'profile_form', 'social_links', 'Enter a valid URL.')
+
+  def test_user_profile_view_accessible(self):
+      response = self.client.get(reverse('userprofile', kwargs={'user_id': self.user2.id}))
+      self.assertEqual(response.status_code, 200)
+      self.assertTemplateUsed(response, 'user_profile.html')
+
+  def test_user_profile_content(self):
+      response = self.client.get(reverse('userprofile', kwargs={'user_id': self.user2.id}))
+      self.assertContains(response, 'User Two')
+      self.assertContains(response, 'User Two Bio')
+      self.assertContains(response, 'https://twitter.com/user2')
+
+  def test_user_profile_read_only(self):
+      # Try posting to the public profile URL of another user
+      response = self.client.post(reverse('userprofile', kwargs={'user_id': self.user2.id}), {
+          'display_name': 'Should Not Change',
+          'bio': 'This should not work',
+          'social_links': 'https://linkedin.com/in/user2',
+      })
+      self.assertEqual(response.status_code, 405)  # 405 - POST Method Not Allowed
+
+      # Ensure that the other user's profile was not changed
+      self.profile2.refresh_from_db()
+      self.assertEqual(self.profile2.display_name, 'User Two')
+      self.assertEqual(self.profile2.bio, 'User Two Bio')
+      self.assertEqual(self.profile2.social_links, 'https://twitter.com/user2')

@@ -3,6 +3,7 @@ from social_media_app.forms import RegistrationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from social_media_app.forms import ProfileUpdateForm, UserUpdateForm
 from pages.models import Profile
 from django.shortcuts import get_object_or_404
@@ -72,6 +73,7 @@ def my_profile(request):
   return render(request, 'my_profile.html', context)
 
 @login_required(login_url='/login/')
+@require_http_methods(["GET"])  # Only GET requests
 def user_profile(request, user_id):
   user = get_object_or_404(User, pk=user_id)
   profile = user.profile

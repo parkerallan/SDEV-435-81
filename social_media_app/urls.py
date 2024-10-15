@@ -19,7 +19,7 @@ urlpatterns = [
     path('registered/', registered_view, name='registered'),
     
     path('myprofile/', my_profile, name='myprofile'),
-    path('userprofile/<int:user_id>/', user_profile, name='userprofile')
+    path('userprofile/<uuid:id>/', user_profile, name='userprofile')
 ]
 
 if settings.DEBUG:

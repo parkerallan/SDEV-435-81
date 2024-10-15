@@ -175,19 +175,19 @@ class UserProfiles(TestCase):
       self.assertFormError(response, 'profile_form', 'social_links', 'Enter a valid URL.')
 
   def test_user_profile_view_accessible(self):
-      response = self.client.get(reverse('userprofile', kwargs={'user_id': self.user2.id}))
+      response = self.client.get(reverse('userprofile', kwargs={'id': self.profile2.id}))
       self.assertEqual(response.status_code, 200)
       self.assertTemplateUsed(response, 'user_profile.html')
 
   def test_user_profile_content(self):
-      response = self.client.get(reverse('userprofile', kwargs={'user_id': self.user2.id}))
+      response = self.client.get(reverse('userprofile', kwargs={'id': self.profile2.id}))
       self.assertContains(response, 'User Two')
       self.assertContains(response, 'User Two Bio')
       self.assertContains(response, 'https://twitter.com/user2')
 
   def test_user_profile_read_only(self):
       # Try posting to the public profile URL of another user
-      response = self.client.post(reverse('userprofile', kwargs={'user_id': self.user2.id}), {
+      response = self.client.post(reverse('userprofile', kwargs={'id': self.profile2.id}), {
           'display_name': 'Should Not Change',
           'bio': 'This should not work',
           'social_links': 'https://linkedin.com/in/user2',

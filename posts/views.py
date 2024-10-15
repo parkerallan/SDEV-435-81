@@ -27,8 +27,8 @@ def post_list(request):
     return render(request, 'feed.html', {'posts': posts})
 
 @login_required(login_url='/login/')
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, id):
+    post = get_object_or_404(Post, id=id)
 
     if request.method == 'POST':
         action = request.POST.get('action')  # Get the action if it's like/dislike
@@ -44,7 +44,7 @@ def post_detail(request, pk):
             if comment_content.strip():  # Ensure the comment isn't empty
                 Comment.objects.create(post=post, author=request.user, content=comment_content)
 
-        return redirect('post_detail', pk=post.pk)  # Redirect to the post detail view
+        return redirect('post_detail', id=post.id)  # Redirect to the post detail view
 
     return render(request, 'post_detail.html', {'post': post})
 

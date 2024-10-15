@@ -5,8 +5,6 @@ from django.conf.urls.static import static
 from .views import post_detail, create_post
 
 urlpatterns = [
-    path('<int:pk>/', post_detail, name='post_detail'),
+    path('<uuid:id>/', post_detail, name='post_detail'),
     path('create/', create_post, name='create_post'),
-    # temporary route
-    path('detail/', post_detail, name='post_detail'),
 ]

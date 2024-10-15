@@ -74,11 +74,13 @@ def my_profile(request):
 
 @login_required(login_url='/login/')
 @require_http_methods(["GET"])  # Only GET requests
-def user_profile(request, user_id):
-  user = get_object_or_404(User, pk=user_id)
-  profile = user.profile
-  context = {
-      'user': user,
-      'profile': profile
-  }
-  return render(request, 'user_profile.html', context)
+def user_profile(request, id):
+    # Fetch the profile by its UUID
+    profile = get_object_or_404(Profile, id=id)
+    user = profile.user  # Access the related user from the profile
+    
+    context = {
+        'user': user,
+        'profile': profile
+    }
+    return render(request, 'user_profile.html', context)

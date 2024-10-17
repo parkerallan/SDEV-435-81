@@ -1,17 +1,45 @@
-<div class="media-block mt-4">
-  <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></a>
-  <div class="media-body">
-    <div class="mar-btm ms-3">
-      <p class="text-semibold media-heading box-inline m-0">
-        {% if post.author.profile.display_name %}
-          {{ post.author.profile.display_name }}
-        {% else %}
-          {{ post.author.username }}
-        {% endif %}
-      </p>
-      <p class="text-muted text-sm">{{ comment.created_at }}</p>
+<div class="media-block mt-4 d-flex {% if comment.author == user %}justify-content-end{% endif %}">
+  <!-- Check if the comment was made by the authenticated user -->
+  {% if comment.author == user %}
+    <!-- Right-aligned content for authenticated user -->
+    <div class="media-body text-end">
+      <div class="mar-btm">
+        <p class="text-semibold media-heading box-inline m-0">
+          <a href="{% url 'userprofile' comment.author.profile.id %}" style="text-decoration: none; color: white;">
+            {% if comment.author.profile.display_name %}
+              {{ comment.author.profile.display_name }}
+            {% else %}
+              {{ comment.author.username }}
+            {% endif %}
+          </a>
+        </p>
+        <p class="text-muted text-sm">{{ comment.created_at }}</p>
+      </div>
+      <p class="text-start">{{ comment.content }}</p>
     </div>
-    <p>{{ comment.content }}</p>
-    <hr>
-  </div>
+    <a href="{% url 'userprofile' comment.author.profile.id %}" class="align-self-start ms-3">
+      <img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png">
+    </a>
+  {% else %}
+    <!-- Left-aligned content for other users -->
+    <a href="{% url 'userprofile' comment.author.profile.id %}" class="me-3">
+      <img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png">
+    </a>
+    <div class="media-body">
+      <div class="mar-btm">
+        <p class="text-semibold media-heading box-inline m-0">
+          <a href="{% url 'userprofile' comment.author.profile.id %}" style="text-decoration: none; color: white;">
+            {% if comment.author.profile.display_name %}
+              {{ comment.author.profile.display_name }}
+            {% else %}
+              {{ comment.author.username }}
+            {% endif %}
+          </a>
+        </p>
+        <p class="text-muted text-sm">{{ comment.created_at }}</p>
+      </div>
+      <p>{{ comment.content }}</p>
+    </div>
+  {% endif %}
 </div>
+<hr>

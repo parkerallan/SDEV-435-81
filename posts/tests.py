@@ -29,6 +29,7 @@ class Posts(TestCase):
 class Comments(TestCase):
   def setUp(self):
     self.user = User.objects.create_user(username='commentsuser', password='bigpassword345**')
+    self.profile = Profile.objects.create(user=self.user)
     self.client.login(username='commentsuser', password='bigpassword345**')
     self.post = Post.objects.create(author=self.user, content='Comment Post')
     

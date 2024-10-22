@@ -68,8 +68,11 @@ def my_profile(request):
   else:
       profile_form = ProfileUpdateForm(instance=profile)
 
+  activities = Activity.objects.filter(user=request.user).order_by('-created_at')[:5]
+  
   context = {
-      'profile_form': profile_form
+      'profile_form': profile_form,
+      'activities': activities
   }
   return render(request, 'my_profile.html', context)
 

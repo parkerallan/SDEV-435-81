@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment
+from .models import Post, Comment, Activity
 from django.contrib import messages
 from .utils import like_dislike
 
@@ -21,6 +21,7 @@ def post_list(request):
             comment_content = request.POST.get('content')
             if comment_content.strip():  # Ensure the comment isn't empty
                 Comment.objects.create(post=post, author=request.user, content=comment_content)
+                Activity.objects.create(user=request.user, action='comment', post=post)
 
         return redirect('feed')
     
@@ -43,6 +44,7 @@ def post_detail(request, id):
         if comment_content and post_id:  # Check if content and post ID are available
             if comment_content.strip():  # Ensure the comment isn't empty
                 Comment.objects.create(post=post, author=request.user, content=comment_content)
+                Activity.objects.create(user=request.user, action='comment', post=post)
 
         return redirect('post_detail', id=post.id)  # Redirect to the post detail view
 
@@ -52,6 +54,7 @@ def post_detail(request, id):
 def create_post(request):
     if request.method == 'POST':
         content = request.POST.get('content')
-        Post.objects.create(author=request.user, content=content)
+        post = Post.objects.create(author=request.user, content=content)
+        activities = Activity.objects.create(user=request.user, action='post', post=post)
         return redirect('feed')
     return render(request, 'create_post.html')

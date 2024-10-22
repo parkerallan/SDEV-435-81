@@ -5,7 +5,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from social_media_app.forms import ProfileUpdateForm, UserUpdateForm
-from pages.models import Profile
+from .models import Profile
+from posts.models import Activity
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
@@ -67,8 +68,11 @@ def my_profile(request):
   else:
       profile_form = ProfileUpdateForm(instance=profile)
 
+  activities = Activity.objects.filter(user=request.user).order_by('-created_at')[:5]
+  
   context = {
-      'profile_form': profile_form
+      'profile_form': profile_form,
+      'activities': activities
   }
   return render(request, 'my_profile.html', context)
 
@@ -78,9 +82,11 @@ def user_profile(request, id):
     # Fetch the profile by its UUID
     profile = get_object_or_404(Profile, id=id)
     user = profile.user  # Access the related user from the profile
+    activities = Activity.objects.filter(user=user).order_by('-created_at')[:5]
     
     context = {
         'user': user,
-        'profile': profile
+        'profile': profile,
+        'activities': activities
     }
     return render(request, 'user_profile.html', context)

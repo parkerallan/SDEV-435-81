@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404
-from .models import Post
+from .models import Post, Activity
 
 def like_dislike(request, post_id):
     """Handles the like and dislike logic for a post."""
     post = get_object_or_404(Post, id=post_id)
     action = request.POST.get('action')
+    Activity.objects.create(user=request.user, action=action, post=post)
 
     if action == 'like':
         if request.user in post.likes.all():

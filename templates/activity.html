@@ -1,0 +1,37 @@
+<div class="container rounded" style="background-color: #1e1e1e; padding: 20px;">
+  <h6 class="text-light mb-4">Recent Activity</h6>
+  <ul class="list-unstyled">
+      {% for activity in activities %}
+          <li class="mb-2">
+              <span class="text-muted">{{ activity.created_at|date:"l, F j" }} - </span>
+              {% if activity.action == 'post' %}
+                  <span>Created a post: 
+                      <a href="{% url 'post_detail' activity.post.id %}" class="text-decoration-none text-info">
+                          {{ activity.post.content|truncatewords:5 }}
+                      </a>
+                  </span>
+              {% elif activity.action == 'comment' %}
+                  <span>Commented on a post: 
+                      <a href="{% url 'post_detail' activity.post.id %}" class="text-decoration-none text-info">
+                          {{ activity.post.content|truncatewords:5 }}
+                      </a>
+                  </span>
+              {% elif activity.action == 'like' %}
+                  <span>Liked a post: 
+                      <a href="{% url 'post_detail' activity.post.id %}" class="text-decoration-none text-info">
+                          {{ activity.post.content|truncatewords:5 }}
+                      </a>
+                  </span>
+              {% elif activity.action == 'dislike' %}
+                  <span>Disliked a post: 
+                      <a href="{% url 'post_detail' activity.post.id %}" class="text-decoration-none text-info">
+                          {{ activity.post.content|truncatewords:5 }}
+                      </a>
+                  </span>
+              {% endif %}
+          </li>
+      {% empty %}
+          <li>No activities recorded.</li>
+      {% endfor %}
+  </ul>
+</div>

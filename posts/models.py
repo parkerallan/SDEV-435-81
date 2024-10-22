@@ -31,3 +31,18 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment by {self.author.username} on {self.post}'
 
+class Activity(models.Model):
+    ACTION_CHOICES = (
+        ('post', 'Post Created'),
+        ('comment', 'Commented'),
+        ('like', 'Liked')
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES)
+    target_user = models.ForeignKey(User, related_name='target_user', on_delete=models.SET_NULL, null=True)  # might remove
+    post = models.ForeignKey('Post', on_delete=models.SET_NULL, null=True, blank=True)  # Linking to a post 
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} {self.action} on {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"

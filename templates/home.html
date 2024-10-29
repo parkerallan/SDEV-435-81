@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block content %}
+{% load static %}
   <style>
     body, html {
       height: 100%;
@@ -9,7 +10,7 @@
 
     .bg-image {
       /* Background image */
-      background-image: url('templates/assets/cover.jpg'); /* Courtesy of Freepik https://www.freepik.com/legal/terms-of-use#nav-freepik-license */
+      background-image: url("{% static 'images/cover.jpg' %}"); /* Courtesy of Freepik https://www.freepik.com/legal/terms-of-use#nav-freepik-license */
       
       /* Full-screen image */
       height: 100%; 

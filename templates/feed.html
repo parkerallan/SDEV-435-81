@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
   <style>
     body {
       margin-top: 20px;
@@ -99,7 +100,7 @@
         <div class="panel">
           <div class="panel-body">
             <div class="media-block">
-              <div class="media-left"><a href="{% url 'userprofile' post.author.profile.id %}"><img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png"></a></div>
+              <div class="media-left"><a href="{% url 'userprofile' post.author.profile.id %}"><img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}"></a></div>
               <div class="media-body">
                 <div class="mar-btm ms-3">
                   <p class="text-semibold media-heading box-inline m-0"><a href="{% url 'userprofile' post.author.profile.id %}" style="text-decoration: none; color: white;">

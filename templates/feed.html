@@ -100,10 +100,10 @@
         <div class="panel">
           <div class="panel-body">
             <div class="media-block">
-              <div class="media-left"><a href="{% url 'userprofile' post.author.profile.id %}"><img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}"></a></div>
+              <div class="media-left">{% comment %}<a href="{% url 'userprofile' post.author.profile.id %}">{% endcomment %}<img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}"></a></div>
               <div class="media-body">
                 <div class="mar-btm ms-3">
-                  <p class="text-semibold media-heading box-inline m-0"><a href="{% url 'userprofile' post.author.profile.id %}" style="text-decoration: none; color: white;">
+                  <p class="text-semibold media-heading box-inline m-0">{% comment %}<a href="{% url 'userprofile' post.author.profile.id %}" style="text-decoration: none; color: white;">{% endcomment %}
                     {% if post.author.profile.display_name %}
                       {{ post.author.profile.display_name }}
                     {% else %}

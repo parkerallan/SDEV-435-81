@@ -6,7 +6,7 @@
     <div class="media-body text-end">
       <div class="mar-btm">
         <p class="text-semibold media-heading box-inline m-0">
-          <a href="{% url 'userprofile' comment.author.profile.id %}" style="text-decoration: none; color: white;">
+          <a style="text-decoration: none; color: white;">
             {% if comment.author.profile.display_name %}
               {{ comment.author.profile.display_name }}
             {% else %}
@@ -18,18 +18,18 @@
       </div>
       <p class="text-start">{{ comment.content }}</p>
     </div>
-    <a href="{% url 'userprofile' comment.author.profile.id %}" class="align-self-start ms-3">
+    <a class="align-self-start ms-3">
       <img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}">
     </a>
   {% else %}
     <!-- Left-aligned content for other users -->
-    <a href="{% url 'userprofile' comment.author.profile.id %}" class="me-3">
+    <a class="me-3">
       <img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}">
     </a>
     <div class="media-body">
       <div class="mar-btm">
         <p class="text-semibold media-heading box-inline m-0">
-          <a href="{% url 'userprofile' comment.author.profile.id %}" style="text-decoration: none; color: white;">
+          <a style="text-decoration: none; color: white;">
             {% if comment.author.profile.display_name %}
               {{ comment.author.profile.display_name }}
             {% else %}

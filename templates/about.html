@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 <style>
 </style>
 
@@ -22,7 +23,7 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col">
           <div class="card shadow-sm fixed-card">
-            <img src="/templates/assets/code.png" class="card-img-top" alt="Features">
+            <img src="{% static 'images/code.png' %}" class="card-img-top" alt="Features">
             <div class="card-body">
               <h5 class="card-title">Features</h5>
               <p class="card-text">Explore the features of Echo, from user-friendly posting and commenting to interactive content engagement.</p>
@@ -34,7 +35,7 @@
         </div>
         <div class="col">
           <div class="card shadow-sm fixed-card">
-            <img src="/templates/assets/developer.png" class="card-img-top" alt="Developer">
+            <img src="{% static 'images/developer.png' %}" class="card-img-top" alt="Developer">
             <div class="card-body">
               <h5 class="card-title">The Developer</h5>
               <p class="card-text">Meet the passionate developer behind Echo. Committed to building high-quality software.</p>
@@ -46,7 +47,7 @@
         </div>
         <div class="col">
           <div class="card shadow-sm fixed-card">
-            <img src="/templates/assets/contact.png" class="card-img-top" alt="Contact Me">
+            <img src="{% static 'images/contact.png' %}" class="card-img-top" alt="Contact Me">
             <div class="card-body">
               <h5 class="card-title">Contact Me</h5>
               <p class="card-text">Have questions or feedback? I would love to hear from you! Reach out to us through my contact page for any inquiries or questions.</p>

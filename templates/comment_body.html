@@ -1,3 +1,4 @@
+{% load static %}
 <div class="media-block mt-4 d-flex {% if comment.author == user %}justify-content-end{% endif %}">
   <!-- Check if the comment was made by the authenticated user -->
   {% if comment.author == user %}
@@ -18,12 +19,12 @@
       <p class="text-start">{{ comment.content }}</p>
     </div>
     <a href="{% url 'userprofile' comment.author.profile.id %}" class="align-self-start ms-3">
-      <img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png">
+      <img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}">
     </a>
   {% else %}
     <!-- Left-aligned content for other users -->
     <a href="{% url 'userprofile' comment.author.profile.id %}" class="me-3">
-      <img class="img-circle img-sm" alt="Profile Picture" src="/templates/assets/user.png">
+      <img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}">
     </a>
     <div class="media-body">
       <div class="mar-btm">

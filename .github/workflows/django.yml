@@ -31,5 +31,6 @@ jobs:
     - name: Run Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
         python manage.py test -v 2 --parallel 4

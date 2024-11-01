@@ -17,7 +17,7 @@ import dj_database_url
 from environ import Env
 env = Env()
 Env.read_env()
-ENVIROMENT = env('ENVIROMENT', default='production')
+ENVIRONMENT = env('ENVIROMENT', default='production')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVIROMENT == 'development':
+if ENVIRONMENT == 'development':
     DEBUG = True
 else:
     DEBUG = False
@@ -94,7 +94,7 @@ DATABASES = {
 }
 
 POSTGRESQL_LOCAL = False
-if ENVIROMENT == 'production' or POSTGRESQL_LOCAL == True:
+if ENVIRONMENT == 'production' or POSTGRESQL_LOCAL == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 # Password validation

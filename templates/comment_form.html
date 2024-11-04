@@ -1,6 +1,13 @@
+{% comment %}
+  =================================================================================================
+  This template is used to display a form for users to create comments on a post
+  The form includes a textarea for the user to input their comment and a submit button to post the comment.
+  =================================================================================================
+{% endcomment %}
+{% csrf_token %}
 <div>
   {% csrf_token %}
-  <input type="hidden" name="post_id" value="{{ post.id }}">
+  <input type="hidden" name="post_id" value="{{ post.id }}"> <!-- Hidden input field bound to the post ID -->
   <div class="form-group">
       <textarea class="form-control" name="content" rows="3" placeholder="What are you thinking?" required></textarea>
   </div>

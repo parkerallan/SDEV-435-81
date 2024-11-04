@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+{% comment %}
+  =================================================================================================
+  This template is used to display the about page of the Echo platform.
+  The about page includes a brief description of the platform, features, the developer, and a contact section.
+  The page also includes links to learn more about the features, the developer, and to contact the developer.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 {% load static %}
 <style>
@@ -11,14 +18,14 @@
         <h1 class="fw-light">About Echo</h1>
         <p class="lead text-muted">Echo is designed to be your go-to platform for creating and engaging with content. Our goal is to provide a space where users can interact seamlessly. Explore our features and discover a community where your voice matters.</p>
         <p>
-          <a href="{% url 'register' %}" class="btn btn-primary my-2">Get Started</a>
+          <a href="{% url 'register' %}" class="btn btn-primary my-2">Get Started</a> <!-- Link to the registration page -->
           <a href="https://github.com/parkerallan/SDEV-435-81" target="_blank" class="btn btn-secondary my-2">Learn More</a>
         </p>
       </div>
     </div>
   </section>
 
-  <div class="album py-5 bg-dark">
+  <div class="album py-5 bg-dark"> <!-- Section for features, developer, and contact -->
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col">

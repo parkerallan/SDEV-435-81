@@ -1,3 +1,10 @@
+{% comment %}
+  =================================================================================================
+  This template is used to display a single comment on a post. The comment includes the author, content, and timestamp.
+  The comment is displayed in a media block with the author's profile picture and name.
+  The comment is displayed differently based on whether the authenticated user made the comment or another user made the comment.
+  =================================================================================================
+{% endcomment %}
 {% load static %}
 <div class="media-block mt-4 d-flex {% if comment.author == user %}justify-content-end{% endif %}">
   <!-- Check if the comment was made by the authenticated user -->
@@ -7,16 +14,16 @@
       <div class="mar-btm">
         <p class="text-semibold media-heading box-inline m-0">
           <a style="text-decoration: none; color: white;">
-            {% if comment.author.profile.display_name %}
+            {% if comment.author.profile.display_name %} <!-- Check if the author has a display name set -->
               {{ comment.author.profile.display_name }}
             {% else %}
-              {{ comment.author.username }}
+              {{ comment.author.username }} <!-- Display the author's username if no display name is set -->
             {% endif %}
           </a>
         </p>
-        <p class="text-muted text-sm">{{ comment.created_at }}</p>
+        <p class="text-muted text-sm">{{ comment.created_at }}</p> <!-- Display the timestamp of the comment -->
       </div>
-      <p class="text-start">{{ comment.content }}</p>
+      <p class="text-start">{{ comment.content }}</p> <!-- Display the content of the comment -->
     </div>
     <a class="align-self-start ms-3">
       <img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}">

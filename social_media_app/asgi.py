@@ -1,3 +1,9 @@
+# Description: This file is used to configure the ASGI application for the project.
+# The ASGI application is used to handle asynchronous requests in Django in a production environment.
+# The application variable is used to define the ASGI application for the project.
+# For a small project like this, ASGI concurrency is not required.
+# I am not using the ASGI application in this project, instead I'm using the WSGI application instead.
+
 """
 ASGI config for social_media_app project.
 

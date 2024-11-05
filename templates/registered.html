@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% comment %}
+  =================================================================================================
+  This template is used to display a simple message to the user after they have successfully registered.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
   <style>
     .bd-placeholder-img {
@@ -37,9 +42,9 @@
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Registration Successful</h1>
-        <p class="lead text-muted">Congratulations! Your registration was successful. You can now log in to your account.</p>
+        <p class="lead text-muted">Congratulations! Your registration was successful. You can now log in to your account.</p> <!-- Display a message to the user -->
         <p>
-          <a href="{% url 'login' %}" class="btn btn-primary my-2">Login</a>
+          <a href="{% url 'login' %}" class="btn btn-primary my-2">Login</a> <!-- Link to the login page -->
         </p>
       </div>
     </div>

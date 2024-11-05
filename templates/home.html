@@ -1,4 +1,9 @@
 {% extends 'base.html'%}
+{% comment %}
+  =================================================================================================
+  This template is used to display the home page of the application. It contains a background image with a call-to-action button to create an account.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 {% load static %}
   <style>
@@ -9,18 +14,13 @@
     }
 
     .bg-image {
-      /* Background image */
       background-image: url("{% static 'images/cover.jpg' %}"); /* Courtesy of Freepik https://www.freepik.com/legal/terms-of-use#nav-freepik-license */
-      
-      /* Full-screen image */
       height: 100%; 
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-      
-      /* Add an overlay effect */
       position: relative;
-      background-color: rgba(0, 0, 0, 0.5); /* background with transparency */
+      background-color: rgba(0, 0, 0, 0.5);
     }
 
     .cover-container {
@@ -117,9 +117,9 @@
     <div class="cover-container mx-auto">
       <div class="px-3">
         <h1>Experience the Echo</h1>
-        <p class="lead">Connect, Share, Engage—Your Thoughts, Your Voice, Your Platform.</p>
+        <p class="lead">Connect, Share, Engage—Your Thoughts, Your Voice, Your Platform.</p> <!-- Call-to-action message -->
         <p class="lead">
-          <a href="{% url 'register' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Create an Account</a>
+          <a href="{% url 'register' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Create an Account</a> <!-- Button to create an account -->
         </p>
       </div>
     </div>

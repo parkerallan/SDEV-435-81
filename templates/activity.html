@@ -1,13 +1,20 @@
+{% comment %}
+  =================================================================================================
+  This template is used to display the recent activity of a user.
+  The activity includes the date and time of the action, the type of action, and the post that the action was performed on.
+  The activity is displayed in a list format.
+  =================================================================================================
+{% endcomment %}
 <div class="container rounded" style="background-color: #1e1e1e; padding: 20px;">
   <h6 class="text-light mb-4">Recent Activity</h6>
   <ul class="list-unstyled">
-      {% for activity in activities %}
+      {% for activity in activities %} <!-- Loop through each activity in the activities list -->
           <li class="mb-2">
-              <span class="text-muted">{{ activity.created_at|date:"l, F j" }} - </span>
-              {% if activity.action == 'post' %}
+              <span class="text-muted">{{ activity.created_at|date:"l, F j" }} - </span> <!-- Display the date of the activity -->
+              {% if activity.action == 'post' %} <!-- Check the type of action -->
                   <span>Created a post: 
                       <a href="{% url 'post_detail' activity.post.id %}" class="text-decoration-none text-info">
-                          {{ activity.post.content|truncatewords:5 }}
+                          {{ activity.post.content|truncatewords:5 }} <!-- Display the post content -->
                       </a>
                   </span>
               {% elif activity.action == 'comment' %}
@@ -30,7 +37,7 @@
                   </span>
               {% endif %}
           </li>
-      {% empty %}
+      {% empty %} <!-- If there are no activities, display a message -->
           <li>No activities recorded.</li>
       {% endfor %}
   </ul>

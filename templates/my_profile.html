@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% comment %}
+  =================================================================================================
+  This template is used to display the user's own profile information. The user can edit their display name, social links, and bio.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 {% load static %}
 <style>
@@ -8,10 +13,11 @@
     color: #e0e0e0;
   }
 </style>
-{% include 'back.html' %}
+{% include 'back.html' %} <!-- Include the reusable back button -->
 <div class="container mb-5 rounded" style="background-color: #1e1e1e;">
     <div class="row">
         <div class="col-md-3">
+            <!-- Profile Picture, Username, and Email -->
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="mb-4" src="{% static 'images/user.png' %}" alt="Profile Picture" width="95" height="95" style="border-radius: 50%;">
                 <h4>{{ user.username }}</h4>
@@ -19,7 +25,7 @@
             </div>
         </div>
         <div class="col-md-9">
-            <form method="POST">
+            <form method="POST"> <!-- Form to submit profile details -->
                 {% csrf_token %}
                 <!-- Display Name -->
                 <div class="form-floating mt-3">

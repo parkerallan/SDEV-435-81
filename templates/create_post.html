@@ -1,4 +1,9 @@
 {% extends 'base.html'%}
+{% comment %}
+  =================================================================================================
+  This template is used to display the form for creating a new post. It contains a text area for the user to input their post content and a button to submit the post.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 <style>
   body {
@@ -22,23 +27,23 @@
   <div class="col-md-12">
     <div class="card bg-dark text-white rounded">
       <div class="card-body">
-        <form method="post" action="{% url 'create_post' %}">
+        <form method="post" action="{% url 'create_post' %}"> <!-- form to create a new post -->
           {% csrf_token %}
           <div class="form-group">
             <textarea class="form-control mb-3" rows="5" placeholder="What are you thinking?" name="content" required></textarea>
             <div class="d-flex justify-content-between">
-              <a href="{% url 'feed' %}" class="btn btn-outline-danger d-flex align-items-center">
+              <a href="{% url 'feed' %}" class="btn btn-outline-danger d-flex align-items-center"> <!-- button to cancel post creation -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16" width="24" height="24">
                   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H4.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L4.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
                 </svg></a>
-              <button class="btn btn-primary" type="submit">Share</button>
+              <button class="btn btn-primary" type="submit">Share</button> <!-- button to submit the post -->
             </div>
           </div>
         </form>
         {% if messages %}
         <div class="alert alert-secondary" role="alert">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li> <!-- display any error messages -->
             {% endfor %}
         </div>
         {% endif %}

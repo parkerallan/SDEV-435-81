@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% comment %}
+  =================================================================================================
+  This template is used to display the feed of posts from all users
+  It contains a list of all posts with the author, content, likes, and obscured/hidden comments.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 {% load static %}
   <style>
@@ -96,10 +102,11 @@
     <div class="col-md-8 offset-md-2 mt-5">
       
       <!-- Single Post Panel -->
-      {% for post in posts %}
+      {% for post in posts %} <!-- Loop through all posts -->
         <div class="panel">
           <div class="panel-body">
             <div class="media-block">
+              <!-- Author Information -->
               <div class="media-left">{% comment %}<a href="{% url 'userprofile' post.author.profile.id %}">{% endcomment %}<img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}"></a></div>
               <div class="media-body">
                 <div class="mar-btm ms-3">
@@ -112,27 +119,28 @@
                   </p>
                   <p class="text-muted text-sm">{{ post.created_at }}</p>
                 </div>
+                <!-- Post Content -->
                 <p>{{ post.content }}</p>
 
                 <!-- Like Counter-->
                 <div class="d-flex justify-content-between align-items-center">
-                  {% include 'counter.html' %}
+                  {% include 'counter.html' %} <!-- Include the reusable counter template -->
                   <a class="btn btn-sm btn-outline-light" onclick="toggleSelector(event, 'comment-form', '{{ post.id }}')" href="#">Comment</a>
                 </div>
 
                 <!-- Comment Form -->
                 <div class="comment-form mt-3" style="display: none;" data-post-id="{{ post.id }}">
                   <form method="POST" action="{% url 'feed' %}">
-                    {% include 'comment_form.html' %}
+                    {% include 'comment_form.html' %} <!-- Include the reusable comment form -->
                   </form>
                 </div>
                 <hr>
-
+                <!-- Comments Button -->
                 <div>
                   <div class="d-flex justify-content-between">
-                    {% if post.comments.count > 0 %}
-                    <a class="btn btn-sm btn-outline-light" onclick="toggleSelector(event, 'collapsed-comments', '{{ post.id }}')">
-                      View {{ post.comments.count }} Comment{% if post.comments.count > 1 %}s{% endif %}
+                    {% if post.comments.count > 0 %} <!-- Check if there are comments -->
+                    <a class="btn btn-sm btn-outline-light" onclick="toggleSelector(event, 'collapsed-comments', '{{ post.id }}')"> <!-- JavaScript function to toggle the display of comments -->
+                      View {{ post.comments.count }} Comment{% if post.comments.count > 1 %}s{% endif %} <!-- Display the number of comments -->
                     </a>
                     {% endif %}                  
                     <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-outline-light pb-2">
@@ -142,8 +150,8 @@
                   </div>
                   <!-- Collapsed Comments -->
                   <div class="collapsed-comments" data-post-id="{{ post.id }}">
-                    {% for comment in post.comments.all %}
-                      {% include 'comment_body.html' %}
+                    {% for comment in post.comments.all %} <!-- Loop through all comments -->
+                      {% include 'comment_body.html' %} <!-- Display the comment -->
                     {% endfor %}
                   </div>
                 </div>
@@ -151,24 +159,25 @@
             </div>
           </div>
         </div>
-        {% empty %}
+        {% empty %} <!-- Displayed if there are no posts -->
           <h3 class="text-center">No posts found</h3>
         {% endfor %}
     </div>
   </div>
 
-  <a onclick="scrollToTop()" class="scroll-button" href="#">
+  <a onclick="scrollToTop()" class="scroll-button" href="#"> <!-- Button to scroll to the top of the page -->
     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
     </svg>
   </a>
 
-  <a href="{% url 'create_post' %}" class="post-button">
+  <a href="{% url 'create_post' %}" class="post-button"> <!-- Button to create a new post -->
     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
     </svg>
   </a>
 
+  <!-- JS functions for displaying comments and scrolling on click -->
   <script>
     function toggleSelector(event, selectorClass, postId) {
       event.preventDefault();

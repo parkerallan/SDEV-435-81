@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% comment %}
+  =================================================================================================
+  Similar to the feed.html template, this displays post information such as the author, content, likes, and comments.
+  This template is used to display a single post and the full view of comments from all users.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 {% load static %}
   <style>
@@ -39,7 +45,7 @@
       right: 20px;
       width: 50px;
       height: 50px;
-      background-color: #007bff; /* Change this to the color you want */
+      background-color: #007bff;
       border: none;
       border-radius: 50%;
       display: flex;
@@ -63,39 +69,40 @@
         </div>
         <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="{% static 'images/user.png' %}"></a>
         <div class="media-body">
+          <!-- Post Information -->
           <div class="mar-btm ms-3">
             <p class="text-semibold media-heading box-inline m-0">
-              {% if post.author.profile.display_name %}
+              {% if post.author.profile.display_name %} <!-- Display the author's display name if it exists -->
                 {{ post.author.profile.display_name }}
               {% else %}
-                {{ post.author.username }}
+                {{ post.author.username }} <!-- Otherwise, display the author's username -->
               {% endif %}
             </p>
-            <p class="text-muted text-sm">{{ post.created_at }}</p>
+            <p class="text-muted text-sm">{{ post.created_at }}</p> <!-- Display the post's creation date -->
           </div>
           <p>{{ post.content }}</p>
           <div class="d-flex justify-content-between align-items-center">
-            {% include 'counter.html' %}
-            <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a>
+            {% include 'counter.html' %} <!-- Include the like counter -->
+            <a class="btn btn-sm btn-outline-light" onclick="toggleCommentForm()" href="#">Comment</a> <!-- Button to toggle the comment form -->
           </div>
 
           <!-- Comment Form -->
           <div class="comment-form mt-3" style="display: none;">
             <form method="POST" action="{% url 'post_detail' post.id %}">
-                {% include 'comment_form.html' %}
+                {% include 'comment_form.html' %} <!-- Display the comment form using the template -->
             </form>
           </div>
           <hr>
 
           <!-- All Comments -->
-          {% for comment in post.comments.all %}
-            {% include 'comment_body.html' %}
+          {% for comment in post.comments.all %} <!-- Loop through all comments -->
+            {% include 'comment_body.html' %} <!-- Display each comment using the template -->
           {% endfor %}
         </div>
       </div>
     </div>
   </div>
-
+  <!-- JS function to display form for creating a comment -->
   <script>
     function toggleCommentForm() {
       const form = document.querySelector('.comment-form');

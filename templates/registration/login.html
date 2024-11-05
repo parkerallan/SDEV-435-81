@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+{% comment %}
+  =================================================================================================
+  This template is used to display the login form for users to sign in to their account.
+  The form includes fields for the user to input their username and password.
+  The form also includes a link to the password reset page and a link to the registration page.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 {% load static %}
   <style>
@@ -26,7 +33,7 @@
   <div class="container">
     <div class="card">
       <div class="card-body">
-        <form method="post" action="{% url 'login' %}">
+        <form method="post" action="{% url 'login' %}"> <!-- Form to submit login credentials -->
           {% csrf_token %}
           <img class="mb-4 mx-auto d-block" src="{% static 'images/user.png' %}" alt="" width="72" height="72" style="border-radius: 50%; border: thin solid gray;">
           <h1 class="h3 mb-3 fw-normal audiowide-regular">Sign In</h1>
@@ -51,7 +58,7 @@
             <input type="text" class="form-control" id="floatingUsername" name="{{ form.username.name }}" placeholder="Username" value="{{ form.username.value|default_if_none:'' }}">
             <label for="floatingUsername">Username</label>
             {% if form.username.errors %}
-              <div class="text-danger">{{ form.username.errors }}</div>
+              <div class="text-danger">{{ form.username.errors }}</div> <!-- Display error message for wrong/non-existent username -->
             {% endif %}
           </div>
 
@@ -59,32 +66,16 @@
             <input type="password" class="form-control" id="floatingPassword" name="{{ form.password.name }}" placeholder="Password" value="{{ form.password.value|default_if_none:'' }}">
             <label for="floatingPassword">Password</label>
             {% if form.password.errors %}
-              <div class="text-danger">{{ form.password.errors }}</div>
+              <div class="text-danger">{{ form.password.errors }}</div> <!-- Display error message for wrong password -->
             {% endif %}
           </div>
 
-          <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+          <p><a href="{% url 'password_reset' %}">Lost password?</a></p> <!-- Link to reset page -->
           <button class="w-100 btn btn-md btn-primary" type="submit">Proceed</button>
           <input type="hidden" name="next" value="{{ next }}">
-          <p class="mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+          <p class="mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p> <!-- Link to registration page -->
         </form>
       </div>
     </div>
   </div>
 {% endblock %}
-    
-    {% comment %} <form method="post" action="{% url 'login' %}">
-      {% csrf_token %}
-      <table>
-        <tr>
-          <td>{{ form.username.label_tag }}</td>
-          <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-          <td>{{ form.password.label_tag }}</td>
-          <td>{{ form.password }}</td>
-        </tr>
-      </table>
-      <input type="submit" value="login">
-      <input type="hidden" name="next" value="{{ next }}">
-    </form> {% endcomment %}

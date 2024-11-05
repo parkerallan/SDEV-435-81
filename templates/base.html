@@ -1,12 +1,22 @@
+{% comment %}
+  =================================================================================================
+  This template is used as the base template for all other templates in the application.
+  The base template includes the header and footer of the application, as well as the Bootstrap CSS and JavaScript.
+  The base template also includes the navigation bar with links to the home page, feed page, and user profile page.
+  The base template includes a footer with links to the About and Contact pages.
+  =================================================================================================
+{% endcomment %}
 {% load static %}
-<!doctype html>
+<!doctype html> <!-- html declaration -->
 <html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{% static 'images/favicon-16x16.png' %}">
     <title>Echo</title>
+    <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
@@ -36,7 +46,7 @@
         position: fixed;
         right: 0;
         bottom: 0;
-        margin-right: 20px; /* Adjust this value as needed */
+        margin-right: 20px;
       }
     </style>
   </head>
@@ -50,7 +60,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              {% if user.is_authenticated %}
+              {% if user.is_authenticated %} <!-- Check if user is authenticated before display navbar icons -->
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'feed' %}">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-square-text-fill" viewBox="0 0 16 16">
@@ -69,12 +79,7 @@
               {% endif %}
             </ul>
             <form class="d-flex m-0">
-            {% if user.is_authenticated %}
-            {% comment %}<a class="navbar-text me-4" href="{% url 'myprofile' %}"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-            </svg></a>{% endcomment %}
-            {% comment %} <span class="navbar-text me-3">Logged in as {{ user.username }}</span> {% endcomment %}
+            {% if user.is_authenticated %} <!-- Check if user is authenticated before displaying login/logout behavior -->
             <div class="mt-1"><a class="btn btn-outline-danger" href="{% url 'logout' %}">Logout</a></div>
             {% else %}
             <div><a class="btn btn-outline-primary" href="{% url 'login' %}" type="button">Login</a></div>
@@ -88,9 +93,9 @@
     {% endblock %}
   </body>
 
-  <footer class="container">
+  <footer class="container"> <!-- Footer with links to About and Contact pages -->
     <p class="float-end mt-3">Parker Allan &middot; SDEV-435 &middot; <a href="{% url 'about' %}">About</a> &middot; <a href="{% url 'contact' %}">Contact</a></p>
   </footer>
-  
+  <!-- Bootstrap core JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

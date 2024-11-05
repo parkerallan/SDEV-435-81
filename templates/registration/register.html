@@ -1,4 +1,12 @@
 {% extends 'base.html'%}
+{% comment %}
+  =================================================================================================
+  This template is used to display the registration form for users to create an account.
+  The form includes fields for the user to input their username, email, and password.
+  The form also includes a submit button to create the account.
+  If the user already has an account, they can click the link to redirect to the login page.
+  =================================================================================================
+{% endcomment %}
 {% block content %}
 {% load static %}
 <style>
@@ -27,12 +35,12 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-      <form method="post" action="{% url 'register' %}">
+      <form method="post" action="{% url 'register' %}"> <!-- Form to submit registration details -->
         {% csrf_token %}
         <img class="mb-4 mx-auto d-block" src="{% static 'images/user.png' %}" alt="" width="72" height="72" style="border-radius: 50%; border: thin solid gray;">
         <h1 class="h3 mb-3 fw-normal audiowide-regular">Register</h1>
 
-        {% if messages %}
+        {% if messages %} <!-- Handle global messages for alerts -->
         <div class="alert alert-primary" role="alert">
           {% for message in messages %}
           {{ message }}
@@ -45,7 +53,7 @@
           <label for="floatingUsername">Username</label>
           {% if form.username.errors %}
           <div class="invalid-feedback">
-            {{ form.username.errors.as_text }}
+            {{ form.username.errors.as_text }} <!-- Display form-specific errors for username -->
           </div>
           {% endif %}
         </div>
@@ -55,7 +63,7 @@
           <label for="floatingEmail">Email</label>
           {% if form.email.errors %}
           <div class="invalid-feedback">
-            {{ form.email.errors.as_text }}
+            {{ form.email.errors.as_text }} <!-- Display form-specific errors for email -->
           </div>
           {% endif %}
         </div>
@@ -65,7 +73,7 @@
           <label for="floatingPassword">Password</label>
           {% if form.password1.errors %}
           <div class="invalid-feedback">
-            {{ form.password1.errors.as_text }}
+            {{ form.password1.errors.as_text }} <!-- Display form-specific errors for password -->
           </div>
           {% endif %}
         </div>
@@ -75,40 +83,16 @@
           <label for="floatingConfirmPassword">Confirm Password</label>
           {% if form.password2.errors %}
           <div class="invalid-feedback">
-            {{ form.password2.errors.as_text }}
+            {{ form.password2.errors.as_text }}  <!-- Display form-specific errors for password confirmation -->
           </div>
           {% endif %}
         </div>
 
-        <button class="w-100 btn btn-md btn-primary" type="submit">Proceed</button>
+        <button class="w-100 btn btn-md btn-primary" type="submit">Proceed</button> <!-- Submit button to create account -->
         <input type="hidden" name="next" value="{{ next }}">
-        <p class="mt-3">Have an account? <a href="{% url 'login' %}">Login</a></p>
+        <p class="mt-3">Have an account? <a href="{% url 'login' %}">Login</a></p> <!-- Link to login page -->
       </form>
     </div>
   </div>
 </div>
 {% endblock %}
-
-{% comment %} <h2>Register</h2>
-<form method="post" action="{% url 'register' %}">
-    {% csrf_token %}
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.email.label_tag }}</td>
-            <td>{{ form.email }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password1.label_tag }}</td>
-            <td>{{ form.password1 }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password2.label_tag }}</td>
-            <td>{{ form.password2 }}</td>
-        </tr>
-    </table>
-    <input type="submit" value="Register">
-</form> {% endcomment %}

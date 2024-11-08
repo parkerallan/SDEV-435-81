@@ -41,8 +41,28 @@ python manage.py test -v 2 --parallel 4
 ```
 #### Alternatively, run the tests from the Django CI action on this page [here](https://github.com/parkerallan/SDEV-435-81/actions/workflows/django.yml), next, click the 'Run Workflow' dropdown and the green button to run the tests against the master branch
 ## Deployment Plan
+- Deployments can vary widely based on availability, performance, and scalability needs, I will profide a more general outline for how I run a deployment with the app. I'm using Railway for hosting both the web server and PostgreSQL database. Platforms like AWS, DigitalOcean, Heroku, deploying using a containerized service all work as well.
+- In its current form, the app's settings.py file is prepared for production deployments, users will need to create a .env file in the root of the project to manage variables that will be used with your hosting provider. The environment file should contain variables for the following:
+```bash 
+ENVIRONMENT=<development-or-production-here>
+SECRET_KEY=<your-secret-key-here>
+DATABASE_URL=<database-connector-here>
+```
+- Users can deploy using WSGI or ASGI, however Gunicorn currently comes with the pip installation for WSGI web server deployment.
+- Next, users must run "python manage.py collectstatic" to gather all static assets if any changes have been made to static images already included in the project.
+- Next, in your hosting provider of choice create a PostgreSQL database, make sure to save the database connector.
+- Next, in your hosting provider might ask to specify the start command for the web server, in this case: "gunicorn social_media_app.wsgi:application".
+- Next, in your hosting provider add your environment variables. These include the database connector url, project-specific secret key, and environment as "production".
+- In the future, profile pictures or static media types saved by user will be hosted via AWS S3 or a similar media hosting service.
+- More specific setting can be configured such as setting up ALLOWED_HOSTS, and enforcing security measures like SECURE_SSL_REDIRECT and SECURE_HSTS_SECONDS for HTTPS-only traffic.
 ## Maintenance Plan
-
+- The maintenance plan involves regular updates and monitoring to ensure application reliability, security, and performance.
+- Automated scripts will be set to back up the database and test the integrity of data. 
+- Key dependencies, including Django and any third-party packages, will be continually reviewed and updated to mitigate security vulnerabiliteis or package deprecation.
+- Performance will be monitored through database logging and response times. More extenseive analytics tools and alerts will be implemented in the future.
+- Unit tests will automatically run at scheduled intervals to test features using existing Django CI GitHub Workflows.
+- Having a scheduled maintenance window will allow for downtime if necessary and will likely occur at night with unit test runs.
+- The documentation will be continuously updated and maintained to assist with troubleshooting and onboarding for any future team members or collaborators.
 ## Developer Setup
 
 ### Prerequisites
@@ -78,5 +98,6 @@ Finally, run the application using this command:
 python manage.py runserver
 ```
 ## Client Setup
-using a Production Build
+End-users can try a live production build now⬇️ All this is required is registering with an account⬇️
 TBA
+This is for users who just want to test the app, not going through the steps of setting up a developer environment like above.

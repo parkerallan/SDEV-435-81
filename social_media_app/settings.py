@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'posts',
     'pages',
+    #'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +147,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/feed/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+# GRAPH_MODELS = {
+#     'all_applications': True,
+#     'group_models': True,
+# }

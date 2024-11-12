@@ -1,3 +1,8 @@
+# Description: Admin portal configuration for posts app
+# The Post and Comment models and their attributes are registered with the admin site which allows the admin to manage them in the portal
+# The admin can view, create, update, and delete posts and comments. Very useful for managing the content and debugging issues
+# The admin portal is accessible at /admin/ and requires superuser account
+
 from django.contrib import admin
 from .models import Post, Comment
 

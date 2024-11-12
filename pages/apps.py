@@ -1,5 +1,6 @@
-from django.apps import AppConfig
+# Description: This file is used to configure the name of the app and to load signals when the app is ready.
 
+from django.apps import AppConfig
 
 class PagesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'

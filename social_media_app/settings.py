@@ -35,8 +35,9 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['sdev-435-81-production.up.railway.app']
 
+CSRF_TRUSTED_ORIGINS = ['https://sdev-435-81-production.up.railway.app']
 
 # Application definition
 

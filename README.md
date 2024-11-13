@@ -99,6 +99,8 @@ Finally, run the application using this command:
 python manage.py runserver
 ```
 ## Client Setup
-End-users can try a live production build now⬇️ All this is required is registering with an account⬇️
-TBA
-This is for users who just want to test the app, not going through the steps of setting up a developer environment like above.
+End-users can try a live production build now⬇️ All this is required is registering an account⬇️
+
+[https://sdev-435-81-production.up.railway.app](https://sdev-435-81-production.up.railway.app)
+
+This is for users who just want to test the app and not go through the steps of setting up a developer environment like the above.

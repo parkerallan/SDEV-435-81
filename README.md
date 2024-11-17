@@ -80,6 +80,10 @@ Edit your environment for 'development' on line 20 of settings.py:
 ```python
 ENVIRONMENT = env('ENVIRONMENT', default='development')
 ```
+Edit your environment for all hosts (rather than the prod URL you choose) on line 38 of settings.py:
+```python
+ALLOWED_HOSTS = ['*']
+```
 In your terminal run the commands to set up a virtual environment with dependencies:
 ```python
 # Create and activate a virtual environment
